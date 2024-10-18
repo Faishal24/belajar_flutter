@@ -1,70 +1,68 @@
 import 'package:flutter/material.dart';
-// [main] is the entry point of the Flutter application.
-void main() {
-  runApp(const MyApp());
+import "package:velocity_x/velocity_x.dart";
+
+void main() async {
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  _FormState createState() => _FormState();
+}
 
-  // This widget is the root of your application.
+class _FormState extends State<MyApp> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _submitForm() {
+    print("Username: ${_usernameController.text}");
+    print("Password: ${_passwordController.text}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 34, 128, 54)),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+      title: 'Flutter UI',
+      home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Flutter VelocityX UI'),
+          ),
+          body: VStack([
+          // Title
+          "Login Form".text.xl4.bold.makeCentered().p20(),
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+          // Username TextField
+          TextFormField(
+            controller: _usernameController,
+            decoration: InputDecoration(
+              labelText: 'Username',
+              border: OutlineInputBorder(),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+          ).p16(),
+
+          // Password TextField
+          TextFormField(
+            controller: _passwordController,
+            decoration: InputDecoration(
+              labelText: 'Password',
+              border: OutlineInputBorder(),
             ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+            obscureText: true,
+          ).p16(),
+
+          // Submit Button
+          ElevatedButton(
+            onPressed: _submitForm,
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(3),
+              ),
+            ),
+            child: "Submit".text.make(),
+          ).wFull(context).h(55).p16(),
+
+        ]).scrollVertical(),
+      )
     );
   }
 }
